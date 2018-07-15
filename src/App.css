@@ -44,6 +44,12 @@
 }
 
 .suggestion-list .suggestion-list-item {
-  border-bottom: 1px solid #295592;
+  border-bottom: 1px solid #041021;
   padding: 10px 5px;
+}
+
+.suggestion-list .suggestion-list-item:hover {
+  background-color: #295592;
+  color: #fff;
+  cursor: pointer;
 }

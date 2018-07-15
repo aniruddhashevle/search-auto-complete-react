@@ -27,7 +27,16 @@ class App extends Component {
     } else this.setState({ suggestionList: [] });
   }
 
-  suggestionListNode = (suggestionList) => <ul className="suggestion-list">{suggestionList.map(listItem => <li className="suggestion-list-item">{listItem}</li>)}</ul>
+  suggestionListNode = (suggestionList) =>
+    <ul className="suggestion-list">
+      {
+        suggestionList.map((listItem, index) =>
+          <li key={index} className="suggestion-list-item" onClick={this.listItemOnClick}>{listItem}</li>
+        )
+      }
+    </ul>
+
+  listItemOnClick = (e) => this.setState({searchValue: e.target.textContent || e.target.innerText})
 
   render() {
     const {
