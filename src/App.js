@@ -24,10 +24,16 @@ class App extends Component {
       } catch (error) {
         //error handling
       }
-    }
+    } else this.setState({ suggestionList: [] });
   }
 
+  suggestionListNode = (suggestionList) => <ul className="suggestion-list">{suggestionList.map(listItem => <li className="suggestion-list-item">{listItem}</li>)}</ul>
+
   render() {
+    const {
+      suggestionList,
+      searchValue
+    } = this.state;
     return (
       <div className="App">
         <header className="App-header">
@@ -42,8 +48,11 @@ class App extends Component {
               id="search-query"
               className="search-input"
               onChange={this.onSearch}
-              value={this.state.searchValue}
+              value={searchValue}
             />
+            {
+              suggestionList && suggestionList.length > 0 && this.suggestionListNode(suggestionList)
+            }
           </div>
         </main>
       </div>

@@ -23,10 +23,27 @@
   max-width: 800px;
   margin: 0 auto;
 }
+
 .search-input {
-  width: 80%;
+  width: 100%;
+  display: inline-block;
 }
+
 .search-label {
   display: block;
   padding-bottom: 20px;
+}
+
+.suggestion-list {
+  padding: 0;
+  border: 1px solid #295592;
+  border-radius: 5px;
+  margin: 0;
+  list-style-type: none;
+  text-align: left;
+}
+
+.suggestion-list .suggestion-list-item {
+  border-bottom: 1px solid #295592;
+  padding: 10px 5px;
 }
