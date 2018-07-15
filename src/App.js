@@ -10,7 +10,7 @@ class App extends Component {
       suggestionList: [],
       cursor: 0,
     };
-    this.wrapperRef = '';
+    this.wrappeListrRef = '';
   }
 
   componentDidMount() {
@@ -21,16 +21,25 @@ class App extends Component {
     document.removeEventListener('mousedown', this.handleClickOutsideList);
   }
 
+  /**
+   * empty the suggestion list
+   */
   removeSuggestionList = () => {
     this.setState({ suggestionList: [] });
   }
 
+  /**
+   * remove the suggestion list if clicked outside the list
+   */
   handleClickOutsideList = (event) => {
-    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+    if (this.wrappeListrRef && !this.wrappeListrRef.contains(event.target)) {
       this.removeSuggestionList();
     }
   }
 
+  /**
+   * Google Suggestion API is used with CORS handling
+   */
   onSearch = async (e) => {
     const { value } = e.target;
     this.setState({ searchValue: value });
@@ -47,8 +56,13 @@ class App extends Component {
     } else this.removeSuggestionList();
   }
 
+  /**
+   * @param {Array} suggestionList
+   *
+   * @return VDOM node
+   */
   suggestionListNode = (suggestionList) =>
-    <ul className="suggestion-list" ref={ref => this.wrapperRef = ref}>
+    <ul className="suggestion-list" ref={ref => this.wrappeListrRef = ref}>
       {
         suggestionList.map((listItem, index) =>
           <li
@@ -62,11 +76,17 @@ class App extends Component {
       }
     </ul>
 
-  listItemOnClick = (e) => this.setState({
-    searchValue: e.target.textContent || e.target.innerText,
+  /**
+   * set the currecnt selected value from the list item clicked
+   */
+  listItemOnClick = (event) => this.setState({
+    searchValue: event.target.textContent || event.target.innerText,
     suggestionList: []
   })
 
+  /**
+   * handle keys from the input fields
+   */
   handleKeyDown = (e) => {
     // arrow up/down and Enter button handling
     const { cursor, suggestionList } = this.state
