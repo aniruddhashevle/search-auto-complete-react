@@ -7,7 +7,8 @@ class App extends Component {
     super(props);
     this.state = {
       searchValue: '',
-      suggestionList: []
+      suggestionList: [],
+      cursor: 0,
     };
     this.wrapperRef = '';
   }
@@ -50,7 +51,13 @@ class App extends Component {
     <ul className="suggestion-list" ref={ref => this.wrapperRef = ref}>
       {
         suggestionList.map((listItem, index) =>
-          <li key={index} className="suggestion-list-item" onClick={this.listItemOnClick}>{listItem}</li>
+          <li
+            key={index}
+            className={'suggestion-list-item ' + (this.state.cursor === index ? 'active' : null)}
+            onClick={this.listItemOnClick}
+          >
+            {listItem}
+          </li>
         )
       }
     </ul>
@@ -59,6 +66,35 @@ class App extends Component {
     searchValue: e.target.textContent || e.target.innerText,
     suggestionList: []
   })
+
+  handleKeyDown = (e) => {
+    // arrow up/down and Enter button handling
+    const { cursor, suggestionList } = this.state
+    if (suggestionList && suggestionList.length > 0) {
+      if (e.key === 'ArrowUp') { // Up Arrow
+        if (cursor > 0) {
+          this.setState(prevState => ({
+            cursor: prevState.cursor - 1
+          }));
+        } else { // to focus on last list item from first list item
+          this.setState({ cursor: suggestionList.length - 1 });
+        }
+      } else if (e.key === 'ArrowDown') { // Down Arrow
+        if (cursor < suggestionList.length - 1) {
+          this.setState(prevState => ({
+            cursor: prevState.cursor + 1
+          }));
+        } else { // to focus on fist list item from last list item
+          this.setState({ cursor: 0 });
+        }
+      } else if (e.key === 'Enter' && (cursor > 0 || cursor < suggestionList.length - 1)) { // Enter to select respcitve list item
+        this.setState({
+          searchValue: suggestionList[cursor],
+          suggestionList: []
+        });
+      }
+    }
+  }
 
   render() {
     const {
@@ -78,8 +114,9 @@ class App extends Component {
               name="search-query"
               id="search-query"
               className="search-input"
-              onChange={this.onSearch}
               value={searchValue}
+              onChange={this.onSearch}
+              onKeyDown={this.handleKeyDown}
             />
             {
               suggestionList && suggestionList.length > 0 && this.suggestionListNode(suggestionList)

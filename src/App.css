@@ -48,7 +48,8 @@
   padding: 10px 5px;
 }
 
-.suggestion-list .suggestion-list-item:hover {
+.suggestion-list .suggestion-list-item:hover,
+.suggestion-list-item.active {
   background-color: #295592;
   color: #fff;
   cursor: pointer;
