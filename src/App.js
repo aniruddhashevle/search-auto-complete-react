@@ -25,7 +25,10 @@ class App extends Component {
    * empty the suggestion list
    */
   removeSuggestionList = () => {
-    this.setState({ suggestionList: [] });
+    this.setState({
+      suggestionList: [],
+      cursor: 0
+    });
   }
 
   /**
@@ -81,7 +84,8 @@ class App extends Component {
    */
   listItemOnClick = (event) => this.setState({
     searchValue: event.target.textContent || event.target.innerText,
-    suggestionList: []
+    suggestionList: [],
+    cursor: 0
   })
 
   /**
@@ -110,7 +114,8 @@ class App extends Component {
       } else if (e.key === 'Enter' && (cursor > 0 || cursor < suggestionList.length - 1)) { // Enter to select respcitve list item
         this.setState({
           searchValue: suggestionList[cursor],
-          suggestionList: []
+          suggestionList: [],
+          cursor: 0
         });
       }
     }
