@@ -1,0 +1,32 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  height: 70px;
+  padding: 20px;
+  margin-bottom: 40px;
+  background-color: #235094;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.search-wrapper {
+  width: 94%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.search-input {
+  width: 80%;
+}
+.search-label {
+  display: block;
+  padding-bottom: 20px;
+}
