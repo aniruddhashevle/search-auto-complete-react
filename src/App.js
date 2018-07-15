@@ -8,6 +8,25 @@ class App extends Component {
     this.state = {
       searchValue: '',
       suggestionList: []
+    };
+    this.wrapperRef = '';
+  }
+
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutsideList);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutsideList);
+  }
+
+  removeSuggestionList = () => {
+    this.setState({ suggestionList: [] });
+  }
+
+  handleClickOutsideList = (event) => {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      this.removeSuggestionList();
     }
   }
 
@@ -24,11 +43,11 @@ class App extends Component {
       } catch (error) {
         //error handling
       }
-    } else this.setState({ suggestionList: [] });
+    } else this.removeSuggestionList();
   }
 
   suggestionListNode = (suggestionList) =>
-    <ul className="suggestion-list">
+    <ul className="suggestion-list" ref={ref => this.wrapperRef = ref}>
       {
         suggestionList.map((listItem, index) =>
           <li key={index} className="suggestion-list-item" onClick={this.listItemOnClick}>{listItem}</li>
@@ -36,7 +55,10 @@ class App extends Component {
       }
     </ul>
 
-  listItemOnClick = (e) => this.setState({searchValue: e.target.textContent || e.target.innerText})
+  listItemOnClick = (e) => this.setState({
+    searchValue: e.target.textContent || e.target.innerText,
+    suggestionList: []
+  })
 
   render() {
     const {
